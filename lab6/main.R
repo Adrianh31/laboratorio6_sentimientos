@@ -5,6 +5,11 @@
 # Jose Martinez     15163
 # Sergio Marchena   16387
 
+install.packages("sentimentr")
+install.packages("tm")
+library(sentimentr)
+library(tm)
+
 
 data<-read.csv("GrammarandProductReviews.csv")
 View(head(data,10))
@@ -37,8 +42,6 @@ data$reviews.title <- removeNumbers(data$reviews.title)
 # Quitar urls
 data$reviews.text<- gsub('http\\S+\\s*', '', data$reviews.text)
 
-install.packages("sentimentr")
-library(sentimentr)
 
 testData<-data
 
