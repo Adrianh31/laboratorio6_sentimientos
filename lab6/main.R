@@ -33,3 +33,18 @@ extract_sentiment_terms(text)
 sentiment_by(text2, var = NULL)
 sentiment(text2)
 extract_sentiment_terms(text2)
+
+
+View(head(testData))
+keywords<-extract_sentiment_terms(text)
+
+delete.NULLs  <-  function(x.list){   # delele null/empty entries in a list
+  x.list[unlist(lapply(x.list, length) != 0)]
+}
+
+pos<-delete.NULLs(keywords$positive)
+pos
+neg<-delete.NULLs(keywords$negative)
+neg
+neu<-delete.NULLs(keywords$neutral)
+neu
