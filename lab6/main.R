@@ -1,6 +1,7 @@
 # Universidad del Valle de Guatemala
 # Lab 6
-
+# Data science
+# Catedrática: Lynette García
 # Jose Pablo Viana  16091
 # Jose Martinez     15163
 # Sergio Marchena   16387
@@ -42,6 +43,14 @@ data$reviews.title <- removeNumbers(data$reviews.title)
 # Quitar urls
 data$reviews.text<- gsub('http\\S+\\s*', '', data$reviews.text)
 
+#Enlace para descripcion de columnas: https://developer.datafiniti.co/docs/product-data-schema
+
+install.packages("sentimentr")
+library(sentimentr)
+
+#Cargamos reviews
+data<-read.csv("GrammarandProductReviews.csv")
+#View(head(data,10))
 
 testData<-data
 
@@ -65,7 +74,6 @@ sentiment_by(text2, var = NULL)
 sentiment(text2)
 extract_sentiment_terms(text2)
 
-
 View(head(testData))
 keywords<-extract_sentiment_terms(text)
 
@@ -79,3 +87,7 @@ neg<-delete.NULLs(keywords$negative)
 neg
 neu<-delete.NULLs(keywords$neutral)
 neu
+
+# ----------------------------- Análisis exploratorio ----------------------------
+nombre_y_review <- data[,c("name","reviews.title","reviews.text")]
+
