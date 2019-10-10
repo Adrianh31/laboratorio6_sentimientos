@@ -6,11 +6,23 @@
 # Jose Martinez     15163
 # Sergio Marchena   16387
 
+install.packages("quanteda")
+library(quanteda)
+
+#Libreria para sentimientos
 install.packages("sentimentr")
-install.packages("tm")
 library(sentimentr)
+
+#Libreria para formar n-grams
+install.packages("stylo")
+library(stylo)
+
+install.packages("tm")
 library(tm)
 
+
+
+#Enlace para descripcion de columnas: https://developer.datafiniti.co/docs/product-data-schema
 
 data<-read.csv("GrammarandProductReviews.csv")
 View(head(data,10))
@@ -42,11 +54,6 @@ data$reviews.title <- removeNumbers(data$reviews.title)
 
 # Quitar urls
 data$reviews.text<- gsub('http\\S+\\s*', '', data$reviews.text)
-
-#Enlace para descripcion de columnas: https://developer.datafiniti.co/docs/product-data-schema
-
-install.packages("sentimentr")
-library(sentimentr)
 
 #Cargamos reviews
 data<-read.csv("GrammarandProductReviews.csv")
@@ -91,3 +98,16 @@ neu
 # ----------------------------- Análisis exploratorio ----------------------------
 nombre_y_review <- data[,c("name","reviews.title","reviews.text")]
 
+# Código utilizado para cuantificar cuantos reviews habían por artículo
+# nombres_repetidos <- as.factor(nombre_y_review[,1])
+# summary(factor)
+
+#Agrupamos los datos por nombre y después unificamos todas las filas en una única que tiene todos los revies
+nombre_y_review <- nombre_y_review %>%
+  group_by(name) %>% summarise(reviews.text = paste(reviews.text, collapse=", "))
+
+#Encontramos las palabras que más se repiten en todos los reviews
+tblUniGrm<-data.frame(table(make.ngrams(txt.to.words(nombre_y_review[,2]), ngram.size = 1)))
+
+#Ordenamos la tabla en orden descendente
+tblUniGrm <- tblUniGrm[order(-tblUniGrm$Freq),]
