@@ -63,6 +63,8 @@ data$reviews.text<- gsub('http\\S+\\s*', '', data$reviews.text)
 
 testData<-data
 
+View(head(data,10))
+
 testData$reviews.text<-as.character(testData$reviews.text)
 
 hola<-subset(testData[c(8,10,16,20,21,24)])
@@ -74,6 +76,17 @@ View(hola)
 
 hola<-na.omit(hola)
 
+hola$sentiment<-""
+hola$postiveWords<-""
+hola$negativeWords<-""
+
+var<-sentiment(hola$reviews.text)
+hola$sentiment<-var$sentiment
+
+var2<-extract_sentiment_terms(hola$reviews.text)
+hola$postiveWords<-var2$positive
+hola$negativeWords<-var2$negative
+# ------------------------------- TEST DE USO DE SENTIMENTR ----------------------------------------------- #
 text<-hola[hola$reviews.id == 148314686, "reviews.text"]
 text2<-hola[hola$reviews.id == 148314686, "reviews.title"]
 
@@ -85,7 +98,6 @@ sentiment_by(text2, var = NULL)
 sentiment(text2)
 extract_sentiment_terms(text2)
 
-View(head(testData))
 keywords<-extract_sentiment_terms(text)
 
 delete.NULLs  <-  function(x.list){   # delele null/empty entries in a list
@@ -98,7 +110,9 @@ neg<-delete.NULLs(keywords$negative)
 neg
 neu<-delete.NULLs(keywords$neutral)
 neu
+# ----------------------------------------- FIN DEL TEST -------------------------------------------------------- #
 
+# GRAFICOS Y TABLAS
 
 nombres<-table(data$name)
 View(nombres)
@@ -127,3 +141,16 @@ tblUniGrm<-data.frame(table(make.ngrams(txt.to.words(nombre_y_review[,2]), ngram
 
 #Ordenamos la tabla en orden descendente
 tblUniGrm <- tblUniGrm[order(-tblUniGrm$Freq),]
+
+
+
+# productos con las mejores reviews
+l1<-subset(hola[c(2,1,7)])
+View(l1)
+l1<-l1[order(-l1$sentiment),]
+top10l1<-head(l1,10)
+top10l1<-subset(top10l1[c(1,3)])
+View(top10l1)
+top10l1<-top10l1[c(2,1)]
+View(top10l1)
+barplot(top10l1$sentiment)
