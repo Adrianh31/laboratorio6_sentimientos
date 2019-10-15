@@ -11,15 +11,18 @@ View(head(data,10))
 
 install.packages("sentimentr")
 library(sentimentr)
+library(dplyr)
 
 testData<-data
 
 testData$reviews.text<-as.character(testData$reviews.text)
 
-hola<-subset(testData[c(10,16,20,21)])
+hola<-subset(testData[c(8,10,16,20,21,24)])
 hola$reviews.title<-as.character(hola$reviews.title)
+hola$manufacturer<-as.character(hola$manufacturer)
+hola$name<-as.factor(hola$name)
 
-View(head(hola,10))
+View(hola)
 
 hola<-na.omit(hola)
 
@@ -48,3 +51,14 @@ neg<-delete.NULLs(keywords$negative)
 neg
 neu<-delete.NULLs(keywords$neutral)
 neu
+
+nombres<-table(data$name)
+View(nombres)
+
+usuarios<-table(data$reviews.username)
+View(usuarios)
+
+View(table(data$brand))
+View(table(data$manufacturer))
+
+View(table(data$reviews.userCity))
