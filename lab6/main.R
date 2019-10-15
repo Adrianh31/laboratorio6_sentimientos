@@ -20,7 +20,7 @@ library(stylo)
 install.packages("tm")
 library(tm)
 
-
+library(dplyr)
 
 #Enlace para descripcion de columnas: https://developer.datafiniti.co/docs/product-data-schema
 
@@ -55,9 +55,7 @@ data$reviews.title <- removeNumbers(data$reviews.title)
 # Quitar urls
 data$reviews.text<- gsub('http\\S+\\s*', '', data$reviews.text)
 
-#Cargamos reviews
-data<-read.csv("GrammarandProductReviews.csv")
-#View(head(data,10))
+#----------------- UTILIZACIÓN sentimentr -----------------#
 
 testData<-data
 
