@@ -38,7 +38,7 @@ data$reviews.title <- tolower(data$reviews.title)
 # reemplazar caracteres
 data$reviews.text <- gsub("@", "", data$reviews.text)
 data$reviews.text <- gsub("#", "", data$reviews.text)
-data$reviews.text <- gsub("'", "", data$reviews.tex t)
+data$reviews.text <- gsub("'", "", data$reviews.text)
 
 data$reviews.title <- gsub("@", "", data$reviews.title)
 data$reviews.title <- gsub("#", "", data$reviews.title)
@@ -142,7 +142,10 @@ tblUniGrm<-data.frame(table(make.ngrams(txt.to.words(nombre_y_review[,2]), ngram
 #Ordenamos la tabla en orden descendente
 tblUniGrm <- tblUniGrm[order(-tblUniGrm$Freq),]
 
+#15 1-gramas que más se repiten en los reviews
+top_15_2grams <- head(tblDosGrm, 15)
 
+barplot(top_15_2grams$Freq,  names.arg = top_15_2grams$Var1,main = "2-GRAMAS MAS REPETIDAS EN LOS REVIEWS", col = c("darkseagreen","darkseagreen1","darkseagreen2","darkseagreen3","darkseagreen4","darkslategray1","darkslategray2","darkslategray3","darkslategray4","grey"))
 ################################ PREGUNTAS ##########################################
 
 l1<-subset(hola[c(2,1,7)])
@@ -260,4 +263,5 @@ delete.NULLs  <-  function(x.list){   # delele null/empty entries in a list
 neg<-delete.NULLs(badwords)
 
 View(neg)
+
 
